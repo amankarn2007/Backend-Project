@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const config = require("config");
+const dbgr = require("debug")("development:mongoose");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/backendProject";
+const MONGO_URL = `${config.get("MONGODB_URL")}/backendProject`;
 
 async function connectDB(){
     try{
@@ -11,10 +13,12 @@ async function connectDB(){
             },
             authSource: "admin",
         });
-        console.log("connected to DB");
+        dbgr("connected to DB");
     } catch(err){
-        console.log("Error connecting to DB: ",err);
+        dbgr("Error connecting to DB: ",err);
     }
 }
+
+connectDB();
 
 module.exports = connectDB;

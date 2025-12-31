@@ -10,7 +10,7 @@ const ownerSchema = new Schema({
     email: String,
     password: String,
     product: {
-        type: String,
+        type: Array,
         default: [],
     },
     picture: String,
@@ -18,4 +18,4 @@ const ownerSchema = new Schema({
 })
 
 
-mongoose.exports = mongoose.model("Owner", ownerSchema);
+module.exports = mongoose.model("Owner", ownerSchema);
