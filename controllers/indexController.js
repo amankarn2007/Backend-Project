@@ -42,6 +42,28 @@ module.exports.addToCart = async (req, res) => {
     res.redirect("/shop");
 }
 
+module.exports.removeFromCart = async (req, res) => {
+    let productId = req.params.id; // this is product id
+    //console.log(productId);
+    let userId= req.user._id;
+    //console.log(userId);
+
+    try{
+        let user = await userModel.findOneAndUpdate(
+            { _id: userId },
+            { $pull: {cart: productId} },
+            { new: true},
+        )
+
+        req.flash("success", "item removed from cart");
+        res.redirect("/cart");
+
+    } catch(err) {
+        req.flash("error", "Delete failed: We couldn't delete your item. Try again.")
+    }
+
+}
+
 module.exports.showAdminPannel = async (req, res) => {
     let products = await productModel.find();
     res.render("adminPannel", {products, isAdminLoggedin: true});

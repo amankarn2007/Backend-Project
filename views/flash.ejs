@@ -1,18 +1,23 @@
 <% if(success && success.length > 0){ %>
-    <div class="alert alert-success alert-dismissible fade show col-4 offset-4 absolute" role="alert">
-        <%= success %>
-
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-        </button>
+    <!--extra div use karna pad rha hai kyoki flash ko product ke upar dikhana hai-->
+    <div class="fixed top-16 left-0 w-full z-[999]">
+        <div class="alert alert-success alert-dismissible fade show col-4 offset-4 absolute" role="alert">
+            <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
     </div>
+
+
 <% } %>
 
 <% if(error && error.length > 0){ %>
-    <div class="alert alert-danger alert-dismissible fade show col-4 offset-4 absolute" role="alert">
-        <%= error %>
-        
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-        </button>
+    <div class="fixed top-16 left-0 w-full z-[999]">
+        <div class="alert alert-danger alert-dismissible fade show col-4 offset-4 absolute" role="alert">
+            <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
     </div>
 
 <% } %>

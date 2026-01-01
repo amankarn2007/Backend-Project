@@ -28,4 +28,8 @@ router
     .get(isLoggedin, indexController.addToCart);
 
 
+router
+    .route("/remove-from-cart/:id")
+    .get(isLoggedin, indexController.removeFromCart);
+
 module.exports = router;

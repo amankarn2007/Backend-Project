@@ -5,6 +5,10 @@ const productSchema = new Schema({
     image: Buffer,
     name: String,
     price: Number,
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+    },
     discount: {
         type: Number,
         default: 0,

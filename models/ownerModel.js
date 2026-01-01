@@ -9,10 +9,12 @@ const ownerSchema = new Schema({
     },
     email: String,
     password: String,
-    product: {
-        type: Array,
-        default: [],
-    },
+    product: [ //product is the array, that store id's of products
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "products",
+        }
+    ],
     picture: String,
     gstin: String,
 })
