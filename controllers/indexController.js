@@ -1,14 +1,15 @@
 const productModel = require("../models/productModel");
 const userModel = require("../models/userModel");
 
-module.exports.home = (req, res) => {
-    res.render("index", {loggedin: false});
+module.exports.home = async (req, res) => {
+    let products = await productModel.find();
+
+    //pehle ham isLoggedin midd se karte the, lekin ab nahi kar skte, bcs / bina loggin ke bhi dikhana hai
+    let isUserLoggedIn = req.cookies.token ? true : false;
+
+    res.render("shop", { products, loggedin: isUserLoggedIn });
 }
 
-module.exports.showShop =  async (req, res) => {
-    let products = await productModel.find();
-    res.render("shop", {products});
-}
 
 module.exports.showCart = async (req,res) => {
     let user = await userModel
@@ -28,7 +29,7 @@ module.exports.showCart = async (req,res) => {
     
     //console.log(bill);
     //console.log(user.cart);
-    res.render("cart", { user, totalMRP, discount, bill});
+    res.render("cart", { user, loggedin: true, totalMRP, discount, bill});
 }
 
 module.exports.addToCart = async (req, res) => {
@@ -39,7 +40,7 @@ module.exports.addToCart = async (req, res) => {
     await user.save();
 
     req.flash("success", "Product is added to cart");
-    res.redirect("/shop");
+    res.redirect("/");
 }
 
 module.exports.removeFromCart = async (req, res) => {
@@ -62,9 +63,4 @@ module.exports.removeFromCart = async (req, res) => {
         req.flash("error", "Delete failed: We couldn't delete your item. Try again.")
     }
 
-}
-
-module.exports.showAdminPannel = async (req, res) => {
-    let products = await productModel.find();
-    res.render("adminPannel", {products, isAdminLoggedin: true});
 }

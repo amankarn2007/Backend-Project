@@ -1,6 +1,8 @@
 const ownerModel = require("../models/ownerModel");
 const bcrypt = require("bcrypt");
 const {generateToken} = require("../utils/generateToken");
+const productModel = require("../models/productModel");
+
 
 module.exports.createAdmin = async (req, res) => {
     try{
@@ -20,8 +22,9 @@ module.exports.createAdmin = async (req, res) => {
                     password : hash,
                 })
 
-                let token = generateToken(admin); //
-                res.cookie("admin_token", token); //set token in cookies
+                //ye admin ka data leke ek key genrate karega, that we'll use in identifing admin, aur fir cookies me "asmin_token" name ke var me token save kar dega
+                let token = generateToken(admin); 
+                res.cookie("admin_token", token);
 
                 res.status(201).send(admin);
             })
@@ -45,7 +48,7 @@ module.exports.adminLogin = async function(req, res){
         
         if(!admin){
             req.flash("error", "admin doese not exists");
-            return res.redirect("/owners/admin/login");
+            return res.redirect("/admin/login");
         }
 
         //password is "admin input password" and "admin.password" is hashed password
@@ -55,22 +58,28 @@ module.exports.adminLogin = async function(req, res){
                 res.cookie("admin_token", token); //set token in cookies
             
                 req.flash("success", "successfully login");
-                res.redirect("/adminPannel");
+                res.redirect("/admin/adminDashboard");
             } else{
                 req.flash("error", "please enter correct password");
-                res.redirect("/owners/admin/login");
+                res.redirect("/admin/login");
             }
         })
     } catch(err) {
         req.flash("error", "Something went wrong during login");
-        res.redirect("/owners/admin/login");
+        res.redirect("/admin/login");
     }
     
 }
 
 module.exports.logoutAdmin = async (req, res) => {
     res.cookie("admin_token", "");
-    res.redirect("/owners/admin/login");
+    res.redirect("/admin/login");
+}
+
+
+module.exports.showAdminPannel = async (req, res) => {
+    let products = await productModel.find();
+    res.render("adminDashboard", {products, isAdminLoggedin: true});
 }
 
 module.exports.createProduct = (req, res) => {

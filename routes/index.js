@@ -10,15 +10,6 @@ router
 
 
 router
-    .route("/shop")
-    .get(isLoggedin, indexController.showShop);
-
-
-router
-    .route("/adminPannel")
-    .get(isAdmin, indexController.showAdminPannel);
-
-router
     .route("/cart")
     .get(isLoggedin, indexController.showCart);
 

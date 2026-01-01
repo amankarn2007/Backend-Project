@@ -7,7 +7,7 @@ const ejsMate = require("ejs-mate");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
 
-const ownersRouter = require("./routes/ownersRouter.js");
+const adminRouter = require("./routes/adminRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
 const productsRouter = require("./routes/productsRouter.js");
 const indexRouter = require("./routes/index.js");
@@ -49,7 +49,7 @@ app.use((req,res,next) => { // show success/error using flash
 //});
 
 app.use("/", indexRouter);
-app.use("/owners", ownersRouter);
+app.use("/admin", adminRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 

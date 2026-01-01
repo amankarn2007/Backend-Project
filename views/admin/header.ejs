@@ -13,13 +13,13 @@
         <% var isAdminLoggedin = typeof isAdminLoggedin !== "undefined" ? isAdminLoggedin : false %>
 
         <% if(isAdminLoggedin){ %>
-            <a class="text-4xl " href="/adminPannel">Admin Panel.</a>
+            <a class="text-4xl " href="/admin/adminDashboard">Admin Panel.</a>
 
             <div class="flex gap-5">
-                <a class="text-blue-800" href="/adminPannel">Home</a>
+                <a class="text-blue-800" href="/admin/adminDashboard">Home</a>
                 <a href="">Products</a>
                 <a href="">My account</a>
-                <a class="text-red-600" href="/owners/admin/logout">Logout</a>
+                <a class="text-red-600" href="/admin/logout">Logout</a>
             </div>
         <% } else{ %>
             <div class="flex gap-4">

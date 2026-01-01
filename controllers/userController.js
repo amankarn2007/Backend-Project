@@ -2,6 +2,9 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const {generateToken} = require("../utils/generateToken");
 
+let getRegisterForm = function(req, res){
+    res.render("auth", { loggedin: false });
+}
 
 let registerUser = async function(req, res){
     try{
@@ -11,7 +14,7 @@ let registerUser = async function(req, res){
 
         if(user){
             req.flash("error", "User already exists");
-            return res.redirect("/");
+            return res.redirect("/users/register");
         }
 
         bcrypt.genSalt(10, function(err, salt){
@@ -29,15 +32,19 @@ let registerUser = async function(req, res){
                     res.cookie("token", token); //set token in cookies
 
                     req.flash("success", "User created successfully");
-                    res.redirect("/shop");
+                    res.redirect("/");
                 }
             })
         })
 
     } catch(err) {
         req.flash("error", "err.message");
-        res.redirect("/");
+        res.redirect("/users/register");
     }
+}
+
+let renderLoginForm = function(req, res){
+    res.render("auth", { loggedin: false });
 }
 
 let loginUser = async function(req, res){
@@ -47,7 +54,7 @@ let loginUser = async function(req, res){
     
     if(!user){
         req.flash("error", "user doese not exists");
-        return res.redirect("/");
+        return res.redirect("/users/login");
     }
 
     //password is "user input password" and "user.password" is hashed password
@@ -57,21 +64,28 @@ let loginUser = async function(req, res){
             res.cookie("token", token);
 
             req.flash("success", "successfully login");
-            res.redirect("/shop");
+            res.redirect("/");
         }else{
             req.flash("error", "please enter correct password");
-            res.redirect("/");
+            res.redirect("/users/login");
         }
     })
 }
 
+let showAdminDash = function(req, res){
+    res.render("adminDashboard");
+}
+
 let logoutUser = async function(req, res){
     res.cookie("token", "");
-    res.redirect("/");
+    res.redirect("/users/login");
 }
 
 module.exports = {
+    getRegisterForm,
     registerUser,
+    renderLoginForm,
     loginUser,
     logoutUser,
+    showAdminDash,
 }
