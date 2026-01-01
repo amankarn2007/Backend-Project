@@ -34,7 +34,7 @@ module.exports.createAdmin = async (req, res) => {
 
 //login form do
 module.exports.renderLoginFrom = (req, res) => {
-    res.render("adminLogin.ejs");
+    res.render("adminLogin.ejs"); //bcs we will work with this logic
 }
 
 
@@ -49,14 +49,14 @@ module.exports.adminLogin = async function(req, res){
         }
 
         //password is "admin input password" and "admin.password" is hashed password
-        bcrypt.compare( password, admin.password, (err, result) => { //res will be boolean value
+        bcrypt.compare( password, admin.password, (err, result) => { //res is boolean value
             if(result){
                 let token = generateToken(admin); //for admin
                 res.cookie("admin_token", token); //set token in cookies
             
                 req.flash("success", "successfully login");
                 res.redirect("/adminPannel");
-            }else{
+            } else{
                 req.flash("error", "please enter correct password");
                 res.redirect("/owners/admin/login");
             }
@@ -74,6 +74,6 @@ module.exports.logoutAdmin = async (req, res) => {
 }
 
 module.exports.createProduct = (req, res) => {
-    res.render("create.ejs");
+    res.render("create", { isAdminLoggedin: true });
 }
 

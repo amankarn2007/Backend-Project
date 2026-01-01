@@ -18,7 +18,7 @@
             <a class="block w-fit mb-2" href="">Discounted Products</a>
         </div>
         <div class="flex items-center mt-32">
-            <a class="block w-fit mb-2 mr-2" href="">Filter by: </a>
+            <a class="block w-fit mb-2 mr-2">Filter by: </a>
             <form action="/shop">
                 <select class="border-[1px] px-2 py-1" name="filterby">
                     <option value="availability">Availability</option>
@@ -29,7 +29,7 @@
     </div>
 
     <!--product view-->
-    <div class="w-[80%] flex flex-col h-full gap-5 overflow-y-auto pl-24 py-4">
+    <div class="w-[80%] flex flex-col h-full gap-5 overflow-y-auto pl-24 py-4 bg-white shadow">
         <div class="flex flex-wrap items-start gap-4 justify-start">
             <% products.forEach(function(product) { %>
                 <!--this is the single product structure-->

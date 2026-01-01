@@ -44,5 +44,5 @@ module.exports.addToCart = async (req, res) => {
 
 module.exports.showAdminPannel = async (req, res) => {
     let products = await productModel.find();
-    res.render("adminPannel", {products});
+    res.render("adminPannel", {products, isAdminLoggedin: true});
 }

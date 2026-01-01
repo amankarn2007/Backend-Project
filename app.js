@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const db = require("./config/mongooseConnection.js"); //Database connection
+require("./config/mongooseConnection.js"); //Database connection, no need to store in any var
 const ejsMate = require("ejs-mate");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
