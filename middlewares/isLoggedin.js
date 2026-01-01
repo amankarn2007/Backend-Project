@@ -16,6 +16,7 @@ module.exports = async (req, res, next) => {
 
     } catch(err){
         req.flash("error", "something went wrong.");
+        res.clearCookie("cookie");
         res.redirect("/");
     }
 }

@@ -6,7 +6,7 @@ module.exports.home = (req, res) => {
 }
 
 module.exports.showShop =  async (req, res) => {
-    let products = await productModel.find()
+    let products = await productModel.find();
     res.render("shop", {products});
 }
 
@@ -40,4 +40,9 @@ module.exports.addToCart = async (req, res) => {
 
     req.flash("success", "Product is added to cart");
     res.redirect("/shop");
+}
+
+module.exports.showAdminPannel = async (req, res) => {
+    let products = await productModel.find();
+    res.render("adminPannel", {products});
 }

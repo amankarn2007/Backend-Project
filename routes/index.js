@@ -1,6 +1,7 @@
 const express = require("express");
 const isLoggedin = require("../middlewares/isLoggedin");
 const indexController = require("../controllers/indexController");
+const isAdmin = require("../middlewares/isAdmin");
 const router = express.Router();
 
 router
@@ -12,6 +13,10 @@ router
     .route("/shop")
     .get(isLoggedin, indexController.showShop);
 
+
+router
+    .route("/adminPannel")
+    .get(isAdmin, indexController.showAdminPannel);
 
 router
     .route("/cart")
