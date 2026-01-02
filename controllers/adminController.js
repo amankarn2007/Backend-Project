@@ -93,6 +93,14 @@ module.exports.createProduct = (req, res) => {
     res.render("create");
 }
 
+module.exports.renderEditForm = async (req, res) => {
+    let { id } = req.params; // product id
+    //console.log(id);
+
+    let product = await productModel.findById(id);
+    res.render("adminProductEdit", {product, isAdminLoggedin: true});
+}
+
 //working
 module.exports.deleteAllProduct = async (req, res) => {
     try{

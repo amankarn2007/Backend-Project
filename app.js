@@ -6,6 +6,7 @@ require("./config/mongooseConnection.js"); //Database connection, no need to sto
 const ejsMate = require("ejs-mate");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
+const methodOverride = require("method-override");
 
 const adminRouter = require("./routes/adminRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.engine('ejs', ejsMate);
+app.use(methodOverride("_method")); //for update and delete route
 
 app.use( //flash use karne ke liye sesion lagana padta hai
     expressSession({

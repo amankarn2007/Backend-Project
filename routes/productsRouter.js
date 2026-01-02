@@ -8,4 +8,9 @@ router
     .route("/create")
     .post(upload.single("image"), isAdmin, productController.productCreate);
 
+
+router
+    .route("/edit/:id")
+    .put(upload.single("image"), isAdmin, productController.editProduct);
+
 module.exports = router;

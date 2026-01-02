@@ -1,5 +1,11 @@
 <%- layout("/adminIncludes/adminBoilerplate") %>
 
+<style>
+    .product-card:hover .edit-icon{
+        opacity: 1 !important;
+    }
+</style>
+
 <div class="w-full h-[calc(100vh-80px)] flex overflow-hidden">
     <!--filter view-->
     <div class="w-[20%] flex flex-col h-full items-start px-20 py-10 overflow-y-auto border-r-[2px] border-zinc[100]">
@@ -22,11 +28,17 @@
                 <% products.forEach(function(product) { %>
                     <!--this is the single product structure-->
                     <div class="w-60">
-                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-    
+
+                        <div class="product-card relative w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
+                            
+                            <a class="absolute top-4 right-5 cursor-pointer opacity-0 edit-icon" href="/admin/editProduct/<%= product.id %>">
+                                <i class="fa-regular fa-pen-to-square text-xl"></i>
+                            </a>
+
                             <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt=".">
                             
                         </div>
+
                         <div class="flex justify-between items-center px-4 py-4 text-white bg-[<%= product.pannelcolor %>]">
                             <div>
                                 <h3> <%= product.name %> </h3>

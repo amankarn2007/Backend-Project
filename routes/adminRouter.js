@@ -15,6 +15,11 @@ router
 
 
 router
+    .route("/editProduct/:id")
+    .get(isAdmin, adminController.renderEditForm)
+
+
+router
     .route("/deleteAllProduct")
     .get(isAdmin, adminController.deleteAllProduct)
 
