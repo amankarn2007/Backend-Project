@@ -2,12 +2,13 @@ const ownerModel = require("../models/ownerModel");
 const bcrypt = require("bcrypt");
 const {generateToken} = require("../utils/generateToken");
 const productModel = require("../models/productModel");
+const userModel = require("../models/userModel");
 
 
 module.exports.createAdmin = async (req, res) => {
     try{
         let owners = await ownerModel.find();
-        if(owners.length >= 3){
+        if(owners.length >= 5){
             return res.status(503).send("you don't have permission to create a new admin");
         }
         let {fullname, email, password} = req.body;
@@ -35,7 +36,7 @@ module.exports.createAdmin = async (req, res) => {
     }
 };
 
-//login form do
+
 module.exports.renderLoginFrom = (req, res) => {
     res.render("adminLogin.ejs"); //bcs we will work with this logic
 }
@@ -71,6 +72,7 @@ module.exports.adminLogin = async function(req, res){
     
 }
 
+
 module.exports.logoutAdmin = async (req, res) => {
     res.cookie("admin_token", "");
     res.redirect("/admin/login");
@@ -78,7 +80,12 @@ module.exports.logoutAdmin = async (req, res) => {
 
 
 module.exports.showAdminPannel = async (req, res) => {
-    let products = await productModel.find();
+    let adminProduct = req.admin.product; //this is all product id in admin model
+    //console.log(adminProduct);
+
+    let products = await productModel.find({
+        _id: { $in: adminProduct}
+    });
     res.render("adminDashboard", {products, isAdminLoggedin: true});
 }
 
@@ -86,3 +93,39 @@ module.exports.createProduct = (req, res) => {
     res.render("create");
 }
 
+//working
+module.exports.deleteAllProduct = async (req, res) => {
+    try{
+        let adminProduct = req.admin.product; // this is admin's product array
+        //console.log(adminProduct);
+
+        if(!adminProduct || adminProduct.length == 0){
+            req.flash("error", "No products to delete");
+            return res.redirect("/admin/adminDashboard");
+        };
+
+        await productModel.deleteMany({ //product collection me se sare product delete kardo
+            _id: { $in: adminProduct}
+        });
+
+        //sabhi user ke cart me se product hata do
+        await userModel.updateMany(
+            {}, // sabhi user ke
+            { $pull: { cart: { $in: adminProduct } } }, //cart me se adminProduct remove kardo
+        )        
+
+        //owner me se product id hatao
+        let owner = await ownerModel.findOneAndUpdate(
+            { _id: req.admin._id },
+            { $set: { product: [] } },
+        )
+        //console.log(owner);
+        
+        req.flash("success", "All products are deleted successfully");
+        res.redirect("/admin/adminDashboard");
+        
+    } catch(err) {
+        req.flash("error", "Delete failed: We couldn't delete your items. Try again.")
+        res.redirect("admin/adminDashboard");
+    }
+}

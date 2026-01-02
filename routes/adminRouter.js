@@ -15,6 +15,11 @@ router
 
 
 router
+    .route("/deleteAllProduct")
+    .get(isAdmin, adminController.deleteAllProduct)
+
+
+router
     .route("/login")
     .get(adminController.renderLoginFrom)
     .post(adminController.adminLogin)

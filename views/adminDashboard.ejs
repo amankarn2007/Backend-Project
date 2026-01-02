@@ -14,25 +14,28 @@
     <!--product view-->
     <div class="w-[80%] flex flex-col h-full gap-3 overflow-y-auto pl-24 py-4 bg-white shadow">
         <div>
-            <a class="text-red-600" href="">Delete All</a>
+            <a class="text-red-600" href="/admin/deleteAllProduct">Delete All</a>
         </div>
         <div class="flex flex-wrap items-start gap-4 justify-start">
-            <% products.forEach(function(product) { %>
-                <!--this is the single product structure-->
-                <div class="w-60">
-                    <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-
-                        <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt=".">
-                        
-                    </div>
-                    <div class="flex justify-between items-center px-4 py-4 text-white bg-[<%= product.pannelcolor %>]">
-                        <div>
-                            <h3> <%= product.name %> </h3>
-                            <h4>₹ <%= product.price %> </h4>
+            <!--this checkpoint is not neccessary but good for the practice-->
+            <% if(products.length > 0){ %>
+                <% products.forEach(function(product) { %>
+                    <!--this is the single product structure-->
+                    <div class="w-60">
+                        <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
+    
+                            <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt=".">
+                            
+                        </div>
+                        <div class="flex justify-between items-center px-4 py-4 text-white bg-[<%= product.pannelcolor %>]">
+                            <div>
+                                <h3> <%= product.name %> </h3>
+                                <h4>₹ <%= product.price %> </h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% }) %>
+                <% }) %>
+            <% } %>
             
         </div>
     </div>
