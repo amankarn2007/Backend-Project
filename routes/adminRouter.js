@@ -6,7 +6,7 @@ const isAdmin = require("../middlewares/isAdmin");
 
 //Set NODE_ENV === "development"
 if(process.env.NODE_ENV === "development"){
-    router.post("/create", adminController.createAdmin);
+    router.post("/createAdmin", adminController.createAdmin);
 }
 
 router
