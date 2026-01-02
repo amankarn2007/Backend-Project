@@ -89,9 +89,11 @@ module.exports.showAdminPannel = async (req, res) => {
     res.render("adminDashboard", {products, isAdminLoggedin: true});
 }
 
+
 module.exports.createProduct = (req, res) => {
     res.render("create");
 }
+
 
 module.exports.renderEditForm = async (req, res) => {
     let { id } = req.params; // product id
@@ -101,7 +103,35 @@ module.exports.renderEditForm = async (req, res) => {
     res.render("adminProductEdit", {product, isAdminLoggedin: true});
 }
 
-//working
+
+module.exports.deleteProduct = async (req, res) => {
+    try{
+        let { id } = req.params; // this is product id
+        //console.log(id);
+
+        await productModel.findByIdAndDelete(id);
+
+        //sabhi user ke cart se product id remove
+        await userModel.updateMany(
+            {}, //in all users
+            { $pull: { cart: id } }, //remove product id from every user
+        )
+
+        await ownerModel.findOneAndUpdate(
+            { _id: req.admin._id }, //this come from isAdmin midd, is id se owner mil jayega
+            { $pull: { product: id } }, //remove product id in admins product array 
+        )
+
+        req.flash("success", "Product deleted successfully");
+        res.redirect("/admin/adminDashboard");
+
+    } catch(err) {
+        req.flash("error", "Delete failed: We couldn't delete your item. Try again.");
+        res.redirect("/admin/adminDashboard");
+    }
+}
+
+
 module.exports.deleteAllProduct = async (req, res) => {
     try{
         let adminProduct = req.admin.product; // this is admin's product array

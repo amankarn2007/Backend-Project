@@ -13,16 +13,17 @@ router
     .route("/create")
     .get(isAdmin , adminController.createProduct)
 
-
 router
     .route("/editProduct/:id")
     .get(isAdmin, adminController.renderEditForm)
 
+router
+    .route("/deleteProduct/:id")
+    .delete(isAdmin, adminController.deleteProduct);
 
 router
     .route("/deleteAllProduct")
     .get(isAdmin, adminController.deleteAllProduct)
-
 
 router
     .route("/login")
