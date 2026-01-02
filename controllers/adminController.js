@@ -54,7 +54,7 @@ module.exports.adminLogin = async function(req, res){
         //password is "admin input password" and "admin.password" is hashed password
         bcrypt.compare( password, admin.password, (err, result) => { //res is boolean value
             if(result){
-                let token = generateToken(admin); //for admin
+                let token = generateToken(admin); //genrate ne token for admin
                 res.cookie("admin_token", token); //set token in cookies
             
                 req.flash("success", "successfully login");
@@ -83,6 +83,6 @@ module.exports.showAdminPannel = async (req, res) => {
 }
 
 module.exports.createProduct = (req, res) => {
-    res.render("create", { isAdminLoggedin: true });
+    res.render("create");
 }
 

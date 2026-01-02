@@ -14,7 +14,7 @@ module.exports.home = async (req, res) => {
 module.exports.showCart = async (req,res) => {
     let user = await userModel
         .findOne({email: req.user.email})
-        .populate("cart");
+        .populate("cart"); //.populate IDs ko actual product data se replace kar deta hai
     
     
     let totalMRP = 0;
@@ -44,10 +44,10 @@ module.exports.addToCart = async (req, res) => {
 }
 
 module.exports.removeFromCart = async (req, res) => {
-    let productId = req.params.id; // this is product id
-    //console.log(productId);
     let userId= req.user._id;
     //console.log(userId);
+    let productId = req.params.id; // this is product id
+    //console.log(productId);
 
     try{
         let user = await userModel.findOneAndUpdate(

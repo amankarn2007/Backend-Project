@@ -26,7 +26,7 @@ module.exports.productCreate = async (req, res) => {
         await owner.save();
 
         req.flash("success", "Product created successfully");
-        res.redirect("/admin/adminPannel");
+        res.redirect("/admin/adminDashboard");
     } catch(err) {
         req.flash("error", "err.msg");
     }

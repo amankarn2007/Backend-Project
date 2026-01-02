@@ -11,7 +11,7 @@ if(process.env.NODE_ENV === "development"){
 
 router
     .route("/create")
-    .get( adminController.createProduct)
+    .get(isAdmin , adminController.createProduct)
 
 
 router
