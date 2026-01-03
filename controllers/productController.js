@@ -112,10 +112,6 @@ module.exports.deleteAllProduct = async (req, res) => {
             return res.redirect("/admin/adminDashboard");
         };
 
-        await productModel.deleteMany({ //product collection me se sare product delete kardo
-            _id: { $in: adminProduct}
-        });
-
         //sabhi user ke cart me se product hata do
         await userModel.updateMany(
             {}, // sabhi user ke
@@ -127,7 +123,10 @@ module.exports.deleteAllProduct = async (req, res) => {
             { _id: req.admin._id },
             { $set: { product: [] } },
         )
-        //console.log(owner);
+
+        await productModel.deleteMany({ //product collection me se sare product delete kardo
+            _id: { $in: adminProduct}
+        });
         
         req.flash("success", "All products are deleted successfully");
         res.redirect("/admin/adminDashboard");

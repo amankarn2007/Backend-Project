@@ -24,6 +24,6 @@ router
 
 router
     .route("/deleteAllProduct") //isme hamne id nahi bheja kyoki sabhi delete karna hai
-    .get(isAdmin, productController.deleteAllProduct)
+    .delete(isAdmin, wrapAsync(productController.deleteAllProduct));
 
 module.exports = router;

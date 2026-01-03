@@ -34,9 +34,9 @@
 
     <!--product view-->
     <div class="w-[80%] flex flex-col h-full gap-3 overflow-y-auto pl-24 py-4 bg-white shadow">
-        <div>
-            <a class="text-red-600" href="/products/deleteAllProduct">Delete All</a>
-        </div>
+        <form action="/products/deleteAllProduct?_method=DELETE" method="post">
+            <button class="text-red-600 hover:underline" type="submit">Delete All</button>
+        </form>
         <div class="flex flex-wrap items-start gap-4 justify-start">
             <!--this checkpoint is not neccessary but good for the practice-->
             <% if(products.length > 0){ %>
