@@ -16,11 +16,6 @@ router
 
 
 router
-    .route("/adminDashboard")
-    .get(userController.showAdminDash);
-
-
-router
     .route("/logout")
     .get(userController.logoutUser);
 

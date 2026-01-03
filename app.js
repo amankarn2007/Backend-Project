@@ -53,8 +53,8 @@ app.use((req,res,next) => { // show success/error using flash
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
+app.use("/products", productsRouter); 
 app.use("/users", usersRouter);
-app.use("/products", productsRouter);
 
 
 

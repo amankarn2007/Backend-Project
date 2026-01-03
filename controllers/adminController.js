@@ -36,11 +36,9 @@ module.exports.createAdmin = async (req, res) => {
     }
 };
 
-
 module.exports.renderLoginFrom = (req, res) => {
     res.render("adminLogin.ejs"); //bcs we will work with this logic
 }
-
 
 module.exports.adminLogin = async function(req, res){
     try{
@@ -72,12 +70,10 @@ module.exports.adminLogin = async function(req, res){
     
 }
 
-
 module.exports.logoutAdmin = async (req, res) => {
     res.cookie("admin_token", "");
     res.redirect("/admin/login");
 }
-
 
 module.exports.showAdminPannel = async (req, res) => {
     let adminProduct = req.admin.product; //this is all product id in admin model
@@ -87,88 +83,4 @@ module.exports.showAdminPannel = async (req, res) => {
         _id: { $in: adminProduct}
     });
     res.render("adminDashboard", {products, isAdminLoggedin: true});
-}
-
-
-module.exports.createProduct = (req, res) => {
-    res.render("create", {isAdminLoggedin: true});
-}
-
-
-module.exports.renderEditForm = async (req, res) => {
-    let { id } = req.params; // product id
-    //console.log(id);
-
-    let product = await productModel.findById(id);
-    res.render("adminProductEdit", {product, isAdminLoggedin: true});
-}
-
-
-module.exports.deleteProduct = async (req, res) => {
-    try{
-        let { id } = req.params; // this is product id
-        //console.log(id);
-
-        //sabhi user ke cart se product id remove
-        await userModel.updateMany(
-            {}, //in all users
-            { $pull: { cart: id } }, //remove product id from every user
-        )
-
-        await ownerModel.findOneAndUpdate(
-            { _id: req.admin._id }, //this come from isAdmin midd, is id se owner mil jayega
-            { $pull: { product: id } }, //remove product id in admins product array 
-        )
-
-        let deletedProduct = await productModel.findByIdAndDelete(id); //now delete product
-
-        if (!deletedProduct) {
-            req.flash("error", "Product not found or already deleted.");
-            return res.redirect("/admin/adminDashboard"); //for correct flash msg
-        }
-
-        req.flash("success", "Product deleted successfully");
-        return res.redirect("/admin/adminDashboard");
-
-    } catch(err) {
-        req.flash("error", "Delete failed: We couldn't delete your item. Try again.");
-        res.redirect("/admin/adminDashboard");
-    }
-}
-
-
-module.exports.deleteAllProduct = async (req, res) => {
-    try{
-        let adminProduct = req.admin.product; // this is admin's product array
-        //console.log(adminProduct);
-
-        if(!adminProduct || adminProduct.length == 0){
-            req.flash("error", "No products to delete");
-            return res.redirect("/admin/adminDashboard");
-        };
-
-        await productModel.deleteMany({ //product collection me se sare product delete kardo
-            _id: { $in: adminProduct}
-        });
-
-        //sabhi user ke cart me se product hata do
-        await userModel.updateMany(
-            {}, // sabhi user ke
-            { $pull: { cart: { $in: adminProduct } } }, //cart me se adminProduct remove kardo
-        )        
-
-        //owner me se product id hatao
-        let owner = await ownerModel.findOneAndUpdate(
-            { _id: req.admin._id },
-            { $set: { product: [] } },
-        )
-        //console.log(owner);
-        
-        req.flash("success", "All products are deleted successfully");
-        res.redirect("/admin/adminDashboard");
-        
-    } catch(err) {
-        req.flash("error", "Delete failed: We couldn't delete your items. Try again.")
-        res.redirect("admin/adminDashboard");
-    }
 }

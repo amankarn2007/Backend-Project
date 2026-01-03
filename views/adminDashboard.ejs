@@ -28,14 +28,14 @@
             <a class="text-md" href="/admin/adminDashboard">All Products</a>
         </div>
         <div class="flex flex-col mt-2">
-            <a class="block w-fit mb-2 text-md" href="/admin/create">Create New Product</a>
+            <a class="block w-fit mb-2 text-md" href="/products/create">Create New Product</a>
         </div>
     </div>
 
     <!--product view-->
     <div class="w-[80%] flex flex-col h-full gap-3 overflow-y-auto pl-24 py-4 bg-white shadow">
         <div>
-            <a class="text-red-600" href="/admin/deleteAllProduct">Delete All</a>
+            <a class="text-red-600" href="/products/deleteAllProduct">Delete All</a>
         </div>
         <div class="flex flex-wrap items-start gap-4 justify-start">
             <!--this checkpoint is not neccessary but good for the practice-->
@@ -46,14 +46,14 @@
 
                         <div class="product-card relative w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
                             <!--this is delete icon-->
-                            <form action="/admin/deleteProduct/<%= product.id %>?_method=DELETE" method="post" class="absolute top-4 left-5 opacity-0 delete-icon">
+                            <form action="/products/deleteProduct/<%= product.id %>?_method=DELETE" method="post" class="absolute top-4 left-5 opacity-0 delete-icon">
                                 <button type="submit" class="cursor-pointer border-none bg-transparent p-0">
                                     <i class="fa-regular fa-trash-can text-xl"></i>
                                 </button>
                             </form>
 
                             <!--this is edit icon-->
-                            <a class="absolute top-4 right-5 cursor-pointer opacity-0 edit-icon" href="/admin/editProduct/<%= product.id %>">
+                            <a class="absolute top-4 right-5 cursor-pointer opacity-0 edit-icon" href="/products/editProduct/<%= product.id %>">
                                 <i class="fa-regular fa-pen-to-square text-xl"></i>
                             </a>
 

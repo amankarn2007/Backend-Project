@@ -75,9 +75,6 @@ let loginUser = async function(req, res){
     
 }
 
-let showAdminDash = function(req, res){
-    res.render("adminDashboard");
-}
 
 let logoutUser = async function(req, res){
     res.cookie("token", "");
@@ -90,5 +87,4 @@ module.exports = {
     renderLoginForm,
     loginUser,
     logoutUser,
-    showAdminDash,
 }
