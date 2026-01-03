@@ -109,8 +109,6 @@ module.exports.deleteProduct = async (req, res) => {
         let { id } = req.params; // this is product id
         //console.log(id);
 
-        await productModel.findByIdAndDelete(id);
-
         //sabhi user ke cart se product id remove
         await userModel.updateMany(
             {}, //in all users
@@ -122,8 +120,15 @@ module.exports.deleteProduct = async (req, res) => {
             { $pull: { product: id } }, //remove product id in admins product array 
         )
 
+        let deletedProduct = await productModel.findByIdAndDelete(id); //now delete product
+
+        if (!deletedProduct) {
+            req.flash("error", "Product not found or already deleted.");
+            return res.redirect("/admin/adminDashboard"); //for correct flash msg
+        }
+
         req.flash("success", "Product deleted successfully");
-        res.redirect("/admin/adminDashboard");
+        return res.redirect("/admin/adminDashboard");
 
     } catch(err) {
         req.flash("error", "Delete failed: We couldn't delete your item. Try again.");

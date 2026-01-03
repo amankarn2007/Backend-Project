@@ -60,12 +60,13 @@ app.use("/products", productsRouter);
 
 //to handle unknown routes error
 app.use((req, res, next) => {
-    next(new ExpressError(404));
+    next(new ExpressError(404, "Page not found!"));
     //yha next bhi call hua aur ExpressError ne apna kaam bhi kiya
 })
 
 //this middileware handle all error
 app.use((err, req, res, next) => {
+    //console.log(err.message);
     let {statusCode = 500, message = "Something went wrong"} = err; //default code and msg
 
     if(req.originalUrl.startsWith("/products")){
