@@ -91,7 +91,7 @@ module.exports.showAdminPannel = async (req, res) => {
 
 
 module.exports.createProduct = (req, res) => {
-    res.render("create");
+    res.render("create", {isAdminLoggedin: true});
 }
 
 

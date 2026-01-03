@@ -12,6 +12,7 @@ const adminRouter = require("./routes/adminRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
 const productsRouter = require("./routes/productsRouter.js");
 const indexRouter = require("./routes/index.js");
+const ExpressError = require("./utils/ExpressError..js");
 
 require("dotenv").config(); //to access .env Keys using process.env.__
 
@@ -54,6 +55,25 @@ app.use("/", indexRouter);
 app.use("/admin", adminRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
+
+
+
+//to handle unknown routes error
+app.use((req, res, next) => {
+    next(new ExpressError(404));
+    //yha next bhi call hua aur ExpressError ne apna kaam bhi kiya
+})
+
+//this middileware handle all error
+app.use((err, req, res, next) => {
+    let {statusCode = 500, message = "Something went wrong"} = err; //default code and msg
+
+    if(req.originalUrl.startsWith("/products")){
+        return res.status(statusCode).render("adminError.ejs", {message, isAdminLoggedin: true});
+    };
+
+    res.status(statusCode).render("error.ejs", {message});
+})
 
 app.listen(8080, () => {
     console.log("server is listening on port 8080");

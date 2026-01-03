@@ -2,7 +2,7 @@ const ownerModel = require("../models/ownerModel");
 const productModel = require("../models/productModel");
 
 module.exports.productCreate = async (req, res) => {
-    try{
+    //try{
         let {name, price, discount, bgcolor, pannelcolor, textcolor} = req.body;
 
         let adminId = req.admin._id;
@@ -26,9 +26,10 @@ module.exports.productCreate = async (req, res) => {
 
         req.flash("success", "Product created successfully");
         res.redirect("/admin/adminDashboard");
-    } catch(err) {
-        req.flash("error", "err.msg");
-    }
+    //} catch(err) {
+    //    req.flash("error", "currently can't make product");
+    //    res.redirect("/admin/adminDashboard");
+    //}
 }
 
 module.exports.editProduct = async (req, res) => {
