@@ -1,5 +1,11 @@
 <% layout("/layouts/boilerplate") %>
 
+<style>
+    .product:hover{
+        box-shadow: 8px 8px 8px 2px rgb(0 0 255 / 0.2);
+    }
+</style>
+
 <div class="w-full h-[calc(100vh-80px)] flex overflow-hidden">
     <!--filter view-->
     <div class="w-[20%] flex flex-col h-full items-start px-14 py-10 border-r-[2px] border-zinc[100] overflow-y-auto">
@@ -33,14 +39,14 @@
         <div class="flex flex-wrap items-start gap-4 justify-start">
             <% products.forEach(function(product) { %>
                 <!--this is the single product structure-->
-                <div class="w-60">
+                <div class="w-60 shadow-md product">
                     <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
 
                         <img class="h-[12rem]" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt=".">
                         
                     </div>
-                    <div class="flex justify-between items-center px-4 py-4 text-white bg-[<%= product.pannelcolor %>]">
-                        <div>
+                    <div class="flex justify-between items-center px-4 py-4 bg-[<%= product.pannelcolor %>]">
+                        <div class="text-<%= product.textcolor %>-600">
                             <h3> <%= product.name %> </h3>
                             <h4>₹ <%= product.price %> </h4>
                         </div>

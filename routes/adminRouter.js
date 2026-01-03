@@ -22,7 +22,7 @@ router
     .delete(isAdmin, adminController.deleteProduct);
 
 router
-    .route("/deleteAllProduct")
+    .route("/deleteAllProduct") //isme hamne id nahi bheja kyoki sabhi delete karna hai
     .get(isAdmin, adminController.deleteAllProduct)
 
 router
