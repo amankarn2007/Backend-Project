@@ -52,14 +52,14 @@ module.exports.adminLogin = async function(req, res){
 
         //password is "admin input password" and "admin.password" is hashed password
         bcrypt.compare( password, admin.password, (err, result) => { //res is boolean value
-            if(result){
+            if(result){ //both matched
                 let token = generateToken(admin); //genrate ne token for admin
                 res.cookie("admin_token", token); //set token in cookies
             
                 req.flash("success", "successfully login");
                 res.redirect("/admin/adminDashboard");
             } else{
-                req.flash("error", "please enter correct password");
+                req.flash("error", "please enter correct user and password");
                 res.redirect("/admin/login");
             }
         })

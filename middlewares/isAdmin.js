@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
 
     if(!token){
         req.flash("error", "you need to login first");
-        return res.redirect("/owners/admin/login");
+        return res.redirect("/admin/login");
     }
 
     try{
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
         let admin = await ownerModel.findOne({ email: decoded.email }).select("-password");
         if(!admin){
             req.flash("error", "Invalid admin session");
-            res.redirect("owners/admin/login");
+            return res.redirect("/admin/login");
         }
 
         req.admin = admin; //attach admin in request object
@@ -24,6 +24,6 @@ module.exports = async (req, res, next) => {
     } catch(err){
         req.flash("error", "something went wrong.");
         res.clearCookie("admin_token"); //remove wrong token
-        res.redirect("/owners/admin/login");
+        return res.redirect("/admin/login");
     }
 }

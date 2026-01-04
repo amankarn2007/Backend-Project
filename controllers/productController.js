@@ -7,34 +7,29 @@ module.exports.renderCreateForm = (req, res) => {
 }
 
 module.exports.productCreate = async (req, res) => {
-    //try{
-        let {name, price, discount, bgcolor, pannelcolor, textcolor} = req.body;
+    let {name, price, discount, bgcolor, pannelcolor, textcolor} = req.body;
 
-        let adminId = req.admin._id;
-        //console.log(req.admin._id);
+    let adminId = req.admin._id;
+    //console.log(req.admin._id);
 
-        let product = await productModel.create({
-            image: req.file.buffer,
-            owner: adminId,
-            name,
-            price,
-            discount,
-            bgcolor,
-            pannelcolor,
-            textcolor,
-        });
+    let product = await productModel.create({
+        image: req.file.buffer,
+        owner: adminId,
+        name,
+        price,
+        discount,
+        bgcolor,
+        pannelcolor,
+        textcolor,
+    });
         
-        //owner me product ka aur product me owner ka id dena padega
-        let owner = await ownerModel.findById(adminId);
-        owner.product.push(product._id);
-        await owner.save();
+    //owner me product ka aur product me owner ka id dena padega
+    let owner = await ownerModel.findById(adminId);
+    owner.product.push(product._id);
+    await owner.save();
 
-        req.flash("success", "Product created successfully");
-        res.redirect("/admin/adminDashboard");
-    //} catch(err) {
-    //    req.flash("error", "currently can't make product");
-    //    res.redirect("/admin/adminDashboard");
-    //}
+    req.flash("success", "Product created successfully");
+    res.redirect("/admin/adminDashboard");
 }
 
 module.exports.renderEditForm = async (req, res) => {
@@ -65,7 +60,7 @@ module.exports.editProduct = async (req, res) => {
         res.redirect("/admin/adminDashboard");
 
     } catch(err) {
-        req.flash("error", "Somwthing went wrong");
+        req.flash("error", "Can't update product");
         res.redirect("/admin/adminDashboard");
     }
 }

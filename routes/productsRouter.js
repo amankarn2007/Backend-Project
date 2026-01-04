@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require("../config/multer-config");
 const productController = require("../controllers/productController");
 const isAdmin = require("../middlewares/isAdmin");
-const { wrapAsync } = require("../utils/wrapAsync");
+const wrapAsync = require("../utils/wrapAsync");
 
 router
     .route("/create")

@@ -33,14 +33,19 @@ module.exports.showCart = async (req,res) => {
 }
 
 module.exports.addToCart = async (req, res) => {
-    let { id } = req.params;
-    let user = await userModel.findOne({email: req.user.email});
-   
-    user.cart.push(id);
-    await user.save();
-
-    req.flash("success", "Product is added to cart");
-    res.redirect("/");
+    try{
+        let { id } = req.params; //product id
+        let user = await userModel.findOne({email: req.user.email});
+       
+        user.cart.push(id);
+        await user.save();
+    
+        req.flash("success", "Product is added to cart");
+        res.redirect("/");
+    } catch(err) {
+        req.flash("error", "can't add to cart, try again");
+        res.redirect("/");
+    }
 }
 
 module.exports.removeFromCart = async (req, res) => {
@@ -50,7 +55,7 @@ module.exports.removeFromCart = async (req, res) => {
     //console.log(productId);
 
     try{
-        let user = await userModel.findOneAndUpdate(
+        await userModel.findOneAndUpdate(
             { _id: userId },
             { $pull: {cart: productId} },
             { new: true},

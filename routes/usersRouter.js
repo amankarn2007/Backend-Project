@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
-
+const wrapAsync = require("../utils/wrapAsync");
     
 router
     .route("/register")
@@ -12,7 +12,7 @@ router
 router
     .route("/login")
     .get(userController.renderLoginForm) //
-    .post(userController.loginUser); // "/login" ka post req handler
+    .post(wrapAsync(userController.loginUser)); // "/login" ka post req handler
 
 
 router
