@@ -9,13 +9,23 @@ const { validateProduct } = require("../middlewares/validateProduct.js");
 router
     .route("/create")
     .get(isAdmin , productController.renderCreateForm)
-    .post(upload.single("image"), isAdmin, validateProduct, wrapAsync(productController.productCreate));
+    .post(
+        upload.single("image"), 
+        isAdmin, 
+        validateProduct, 
+        wrapAsync(productController.productCreate)
+    );
 
 
 router
     .route("/editProduct/:id")
     .get(isAdmin, wrapAsync(productController.renderEditForm))
-    .put(upload.single("image"), isAdmin, validateProduct, productController.editProduct);
+    .put(
+        upload.single("image"), 
+        isAdmin, 
+        validateProduct, 
+        productController.editProduct
+    );
 
     
 router

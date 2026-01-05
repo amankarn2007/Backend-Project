@@ -7,6 +7,8 @@ const ejsMate = require("ejs-mate");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const morgan = require("morgan");
+//const helmet = require("helmet");
 
 const adminRouter = require("./routes/adminRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
@@ -17,19 +19,21 @@ const ExpressError = require("./utils/ExpressError..js");
 require("dotenv").config(); //to access .env Keys using process.env.__
 
 app.use(express.json());
-app.use(express.urlencoded({extended : true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.engine('ejs', ejsMate);
 app.use(methodOverride("_method")); //for update and delete route
+app.use(morgan('tiny')); //logging
+//app.use(helmet()); //express securing
 
 app.use( //flash use karne ke liye sesion lagana padta hai
     expressSession({
         resave: false,
         saveUninitialized: true,
         secret: process.env.EXPRESS_SESSION_SECRET || "anything",
-        cookie : {
+        cookie: {
             expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
@@ -40,7 +44,7 @@ app.use( //flash use karne ke liye sesion lagana padta hai
 
 app.use(flash());
 
-app.use((req,res,next) => { // show success/error using flash
+app.use((req, res, next) => { // show success/error using flash
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
@@ -53,7 +57,7 @@ app.use((req,res,next) => { // show success/error using flash
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
-app.use("/products", productsRouter); 
+app.use("/products", productsRouter);
 app.use("/users", usersRouter);
 
 
@@ -67,16 +71,18 @@ app.use((req, res, next) => {
 //this middileware handle all error
 app.use((err, req, res, next) => {
     //console.log(err.message);
-    let {statusCode = 500, message = "Something went wrong"} = err; //default code and msg
+    let { statusCode = 500, message = "Internal Server Error" } = err; //default code and msg
 
     res.locals.success = [];
     res.locals.error = [];
 
-    if(req.originalUrl.startsWith("/admin")){
-        return res.status(statusCode).render("adminError.ejs", {message, isAdminLoggedin: true});
+    console.error(`[ERROR] ${req.method} ${req.url}: ${message}`); //log err for developers.
+
+    if (req.originalUrl.startsWith("/admin")) {
+        return res.status(statusCode).render("adminError.ejs", { message, isAdminLoggedin: true });
     };
 
-    res.status(statusCode).render("error.ejs", {message});
+    res.status(statusCode).render("error.ejs", { message });
 })
 
 app.listen(8080, () => {
