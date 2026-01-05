@@ -69,6 +69,9 @@ app.use((err, req, res, next) => {
     //console.log(err.message);
     let {statusCode = 500, message = "Something went wrong"} = err; //default code and msg
 
+    res.locals.success = [];
+    res.locals.error = [];
+
     if(req.originalUrl.startsWith("/admin")){
         return res.status(statusCode).render("adminError.ejs", {message, isAdminLoggedin: true});
     };

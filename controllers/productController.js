@@ -12,6 +12,10 @@ module.exports.productCreate = async (req, res) => {
     let adminId = req.admin._id;
     //console.log(req.admin._id);
 
+    //if(req.file){
+    //    console.log(req.file);
+    //}
+
     let product = await productModel.create({
         image: req.file.buffer,
         owner: adminId,

@@ -3,6 +3,7 @@ const isLoggedin = require("../middlewares/isLoggedin");
 const indexController = require("../controllers/indexController");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
+const validateProductId = require("../middlewares/validateProductId");
 
 router
     .route("/")
@@ -16,11 +17,11 @@ router
 
 router
     .route("/addtocart/:id")
-    .get(isLoggedin, indexController.addToCart);
+    .get(isLoggedin, validateProductId, wrapAsync(indexController.addToCart));
 
 
 router
     .route("/remove-from-cart/:id")
-    .get(isLoggedin, indexController.removeFromCart);
+    .get(isLoggedin, validateProductId, wrapAsync(indexController.removeFromCart));
 
 module.exports = router;

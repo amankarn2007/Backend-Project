@@ -12,43 +12,72 @@
         </div>
 
         <!--right side product form-->
-        <main class="w-[80%] p-8 ml-4 bg-white shadow">
-            <h2 class="text-xl font-bold mb-4">Edit Product</h2>
-            <form autocomplete="off" action="/products/editProduct/<%= product.id %>?_method=PUT" method="post" enctype="multipart/form-data">
-                <div class="mb-6">
+        <main class="w-[80%] px-8 py-[20px] ml-4 bg-white shadow">
+            <h2 class="text-xl font-bold mb-[10px]">Edit Product</h2>
+
+            <form class="needs-validation" autocomplete="off" action="/products/editProduct/<%= product.id %>?_method=PUT" method="post" enctype="multipart/form-data" novalidate>
+
+                <div class="mb-[10px]">
                     <h3 class="text-lg font-semibold mb-2">Product Details</h3>
                     
                     <div class="mb-4">
                         <label class="block mb-2 font-medium">Product Image</label>
-                        <input name="image" type="file" class="py-2 px-4 rounded">
+                        <input name="image" type="file" class="py-2" required>
+
+                        <div class="invalid-feedback font-bold">Please upload your product image!</div>
                     </div>
+
                     <div class="grid grid-cols-2 gap-4">
-                        <input name="name" type="text" placeholder="Product Name"
-                        class="border p-2 rounded w-full" value="<%= product.name %>">
+                        <div>
+                            <input name="name" type="text" placeholder="Product Name"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.name %>" required>
 
-                        <input name="price" type="text" placeholder="Product Price"
-                        class="border p-2 rounded w-full" value="<%= product.price %>">
+                            <div class="invalid-feedback font-bold">Please enter your product name!</div>
+                        </div>
 
-                        <input name="discount" type="text" placeholder="Discount Price"
-                        class="border p-2 rounded w-full" value="<%= product.discount %>">
+                        <div>
+                            <input name="price" type="text" placeholder="Product Price"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.price %>" required>
+
+                           <div class="invalid-feedback font-bold">Please enter your product price!</div> 
+                        </div>
+
+                        <div>
+                            <input name="discount" type="text" placeholder="Discount Price"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.discount %>" required>
+
+                            <div class="invalid-feedback font-bold">Please enter your product [rice]!</div>
+                        </div>
                     </div>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Panel Details</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <input name="bgcolor" type="text" placeholder="Background Color"
-                        class="border p-2 rounded w-full" value="<%= product.bgcolor %>">
+                        <div>
+                            <input name="bgcolor" type="text" placeholder="Background Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.bgcolor %>" required>
 
-                        <input name="pannelcolor" type="text" placeholder="Panel Color"
-                        class="border p-2 rounded w-full" value="<%= product.pannelcolor %>">
+                            <div class="invalid-feedback font-bold">Please enter your product's background color!</div>
+                        </div>
 
-                        <input name="textcolor" type="text" placeholder="Text Color"
-                        class="border p-2 rounded w-full" value="<%= product.textcolor %>">
+                        <div>
+                            <input name="pannelcolor" type="text" placeholder="Panel Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.pannelcolor %>" required>
+
+                            <div class="invalid-feedback font-bold">Please enter your product's panel color!</div>
+                        </div>
+
+                        <div>
+                            <input name="textcolor" type="text" placeholder="Text Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" value="<%= product.textcolor %>" required>
+
+                            <div class="invalid-feedback font-bold">Please enter your product's text color!</div>
+                        </div>
                     </div>
                 </div>
 
-                <input class="px-10 py-2 rounded mt-4 text-white text-lg bg-blue-500 hover:bg-cyan-500" type="submit" value="Edit">
+                <input class="px-10 py-2 rounded mt-3 text-white text-lg bg-blue-500 hover:bg-cyan-500" type="submit" value="Edit">
 
             
             </form>

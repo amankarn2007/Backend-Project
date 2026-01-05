@@ -4,17 +4,18 @@ const upload = require("../config/multer-config");
 const productController = require("../controllers/productController");
 const isAdmin = require("../middlewares/isAdmin");
 const wrapAsync = require("../utils/wrapAsync");
+const { validateProduct } = require("../middlewares/validateProduct.js");
 
 router
     .route("/create")
     .get(isAdmin , productController.renderCreateForm)
-    .post(upload.single("image"), isAdmin, wrapAsync(productController.productCreate));
+    .post(upload.single("image"), isAdmin, validateProduct, wrapAsync(productController.productCreate));
 
 
 router
     .route("/editProduct/:id")
     .get(isAdmin, wrapAsync(productController.renderEditForm))
-    .put(upload.single("image"), isAdmin, productController.editProduct);
+    .put(upload.single("image"), isAdmin, validateProduct, productController.editProduct);
 
     
 router

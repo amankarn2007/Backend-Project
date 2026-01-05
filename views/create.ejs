@@ -11,41 +11,69 @@
         </div>
 
         <!--right side product form-->
-        <main class="w-[80%] p-8 ml-4 bg-white shadow">
-            <h2 class="text-xl font-bold mb-4">Create New Product</h2>
-            <form autocomplete="off" action="/products/create" method="post" enctype="multipart/form-data">
-                <div class="mb-6">
-                    <h3 class="text-lg font-semibold mb-2">Product Details</h3>
+        <main class="w-[80%] px-8 py-[20px] ml-4 bg-white shadow">
+            <h2 class="text-xl font-bold mb-[10px]">Create New Product</h2>
+
+            <form class="needs-validation" autocomplete="off" action="/products/create" method="post" enctype="multipart/form-data" novalidate>
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-1">Product Details</h3>
+
                     <div class="mb-4">
                         <label class="block mb-2 font-medium">Product Image</label>
-                        <input name="image" type="file" class="py-2 px-4 rounded">
+                        <input class="" name="image" type="file" class="py-2 px-4 rounded" required>
+
+                        <div class="invalid-feedback font-bold">Please select your image!</div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <input name="name" type="text" placeholder="Product Name"
-                        class="border p-2 rounded w-full">
+                        <div>
+                            <input name="name" type="text" placeholder="Product Name"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
+                            
+                            <div class="invalid-feedback font-bold">Please enter product name!</div>
+                        </div>
 
-                        <input name="price" type="text" placeholder="Product Price"
-                        class="border p-2 rounded w-full">
+                        <div>
+                            <input name="price" type="text" placeholder="Product Price"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
 
-                        <input name="discount" type="text" placeholder="Discount Price"
-                        class="border p-2 rounded w-full">
+                            <div class="invalid-feedback font-bold">Please enter product price!</div>
+                        </div>
+
+                        <div class="">
+                            <input name="discount" type="text" placeholder="Discount Price"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
+
+                            <div class="invalid-feedback font-bold">Please enter discount!</div>
+                        </div>
                     </div>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold mb-2">Panel Details</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        <input name="bgcolor" type="text" placeholder="Background Color"
-                        class="border p-2 rounded w-full">
+                        <div>
+                            <input name="bgcolor" type="text" placeholder="Background Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
 
-                        <input name="pannelcolor" type="text" placeholder="Panel Color"
-                        class="border p-2 rounded w-full">
+                            <div class="invalid-feedback font-bold">Please enter product's Background color!</div>
+                        </div>
 
-                        <input name="textcolor" type="text" placeholder="Text Color"
-                        class="border p-2 rounded w-full">
+                        <div>
+                            <input name="pannelcolor" type="text" placeholder="Panel Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
+
+                            <div class="invalid-feedback font-bold">Please enter product's Panel color!</div>
+                        </div>
+
+                        <div>
+                            <input name="textcolor" type="text" placeholder="Text Color"
+                            class="border-[2px] p-2 rounded w-full outline-none focus:border-sky-400" required>
+
+                            <div class="invalid-feedback font-bold">Please enter product's Text color!</div>
+                        </div>
                     </div>
                 </div>
-                <input class="px-4 py-2 rounded mt-3 bg-green-600 text-white" type="submit" value="Create New Product">
+                <input class="px-4 py-2 rounded mt-3 bg-green-600 text-white hover:bg-green-700" type="submit" value="Create New Product">
             </form>
         </main>
     </div>

@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 const wrapAsync = require("../utils/wrapAsync");
+const { validateUser } = require("../middlewares/validateUser");
     
 router
     .route("/register")
     .get(userController.getRegisterForm)
-    .post(userController.registerUser); // "/register" ka post req handler
+    .post(validateUser, userController.registerUser); // "/register" ka post req handler
 
 
 router
