@@ -16,24 +16,44 @@ let registerUser = async function(req, res){
         return res.redirect("/users/register");
     }
 
-    bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(password, salt, async(err, hash) => {
-            if(err) return res.send(err.message);
-            else{
-                let user = await userModel.create({
-                    email,
-                    fullname,
-                    password : hash,
-                })
+    try{ //modern and easy to read version
+        const salt = await bcrypt.genSalt(10); //we'll make salt for our password
+        const hash = await bcrypt.hash(password, salt); //we'll hash our pass and salt
 
-                let token = generateToken(user); //
-                res.cookie("token", token); //set token in cookies
-
-                req.flash("success", "User created successfully");
-                res.redirect("/");
-            }
+        let user = await userModel.create({
+            email,
+            fullname,
+            password : hash,
         })
-    })
+
+        let token = generateToken(user); //genrate token
+        res.cookie("token", token); //set token in cookies
+
+        req.flash("success", "User created successfully");
+        res.redirect("/");
+    } catch(e) {
+        req.flash("error", "Erroro in creating users");
+        res.redirect("/users/register");
+    }
+    
+    // bcrypt.genSalt(10, function(err, salt){ //this is lengthy process
+    //     bcrypt.hash(password, salt, async(err, hash) => {
+    //         if(err) return res.send(err.message);
+    //         else{
+    //             let user = await userModel.create({
+    //                 email,
+    //                 fullname,
+    //                 password : hash,
+    //             })
+
+    //             let token = generateToken(user); //
+    //             res.cookie("token", token); //set token in cookies
+
+    //             req.flash("success", "User created successfully");
+    //             res.redirect("/");
+    //         }
+    //     })
+    // })
 
     //LOGIC : yaha req.body ko JOI se handle karenge aur agar bcrypt fata to wrapAsync sambhalega. kyo try-catch sirf await kiye code par chalta hai.
 }
